@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Des 2022 pada 22.35
+-- Waktu pembuatan: 01 Des 2022 pada 23.09
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.0.19
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_perpustakaan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `books`
+--
+
+CREATE TABLE `books` (
+  `id_book` int(11) NOT NULL,
+  `isbn` varchar(15) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `synopsis` text DEFAULT NULL,
+  `author` varchar(200) NOT NULL,
+  `publisher` varchar(150) NOT NULL,
+  `category` varchar(200) NOT NULL,
+  `languages` varchar(100) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42,21 +61,6 @@ CREATE TABLE `book_table` (
 
 INSERT INTO `book_table` (`book_id`, `isbn`, `book_title`, `author`, `max_rent`, `price_rent`) VALUES
 (7, 909909, 'IKIGAI', 'Tere Liye', 5, 10000);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `extension_member`
---
-
-CREATE TABLE `extension_member` (
-  `id_ext` int(11) NOT NULL,
-  `id_member` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `newDuration/month` int(11) NOT NULL,
-  `end_date` datetime NOT NULL,
-  `cost_ext` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -114,33 +118,38 @@ INSERT INTO `member` (`id_member`, `nik`, `name`, `phone`, `address`, `born_plac
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `member_table`
+-- Struktur dari tabel `member_trx`
 --
 
-CREATE TABLE `member_table` (
-  `member_id` int(11) NOT NULL,
-  `regis_id` int(11) NOT NULL,
-  `isActive` tinyint(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `update_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `member_trx` (
+  `id_member_trx` int(11) NOT NULL,
+  `id_member` int(11) NOT NULL,
+  `id_subscription` int(11) DEFAULT NULL,
+  `date_trx` datetime DEFAULT NULL,
+  `active_at` date DEFAULT NULL,
+  `expire_at` date DEFAULT NULL,
+  `status` enum('paid','unpaid') NOT NULL,
+  `total_order` double DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `registration_member`
+-- Struktur dari tabel `subscription`
 --
 
-CREATE TABLE `registration_member` (
-  `regis_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` int(20) NOT NULL DEFAULT 62,
-  `hometown` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `duration/month` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `end_date` timestamp NULL DEFAULT NULL,
-  `cost_regis` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `subscription` (
+  `id_subscription` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `month` tinyint(6) NOT NULL,
+  `price` float NOT NULL,
+  `status` enum('active') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -175,17 +184,16 @@ INSERT INTO `user_librarian` (`id_librarian`, `card_id`, `username`, `email`, `p
 --
 
 --
+-- Indeks untuk tabel `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`id_book`);
+
+--
 -- Indeks untuk tabel `book_table`
 --
 ALTER TABLE `book_table`
   ADD PRIMARY KEY (`book_id`);
-
---
--- Indeks untuk tabel `extension_member`
---
-ALTER TABLE `extension_member`
-  ADD PRIMARY KEY (`id_ext`),
-  ADD KEY `fk_member` (`id_member`);
 
 --
 -- Indeks untuk tabel `librarians`
@@ -200,17 +208,16 @@ ALTER TABLE `member`
   ADD PRIMARY KEY (`id_member`);
 
 --
--- Indeks untuk tabel `member_table`
+-- Indeks untuk tabel `member_trx`
 --
-ALTER TABLE `member_table`
-  ADD PRIMARY KEY (`member_id`),
-  ADD KEY `fk_regis` (`regis_id`);
+ALTER TABLE `member_trx`
+  ADD PRIMARY KEY (`id_member_trx`);
 
 --
--- Indeks untuk tabel `registration_member`
+-- Indeks untuk tabel `subscription`
 --
-ALTER TABLE `registration_member`
-  ADD PRIMARY KEY (`regis_id`);
+ALTER TABLE `subscription`
+  ADD PRIMARY KEY (`id_subscription`);
 
 --
 -- Indeks untuk tabel `user_librarian`
@@ -224,16 +231,16 @@ ALTER TABLE `user_librarian`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `books`
+--
+ALTER TABLE `books`
+  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `book_table`
 --
 ALTER TABLE `book_table`
   MODIFY `book_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT untuk tabel `extension_member`
---
-ALTER TABLE `extension_member`
-  MODIFY `id_ext` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `librarians`
@@ -248,38 +255,22 @@ ALTER TABLE `member`
   MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `member_table`
+-- AUTO_INCREMENT untuk tabel `member_trx`
 --
-ALTER TABLE `member_table`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `member_trx`
+  MODIFY `id_member_trx` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `registration_member`
+-- AUTO_INCREMENT untuk tabel `subscription`
 --
-ALTER TABLE `registration_member`
-  MODIFY `regis_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `subscription`
+  MODIFY `id_subscription` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_librarian`
 --
 ALTER TABLE `user_librarian`
   MODIFY `id_librarian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `extension_member`
---
-ALTER TABLE `extension_member`
-  ADD CONSTRAINT `fk_member` FOREIGN KEY (`id_member`) REFERENCES `member_table` (`member_id`) ON DELETE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `member_table`
---
-ALTER TABLE `member_table`
-  ADD CONSTRAINT `fk_regis` FOREIGN KEY (`regis_id`) REFERENCES `registration_member` (`regis_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
