@@ -1,13 +1,12 @@
 <?php
-namespace staditek\OOP\App\Core;
+
+namespace Staditek\TH\App\Core;
 
 class View
 {
-    public static function ViewUser(string $view, $data = "")
+    public static function ViewPerpuss(string $view, $data = [])
     {
-        require_once __DIR__ . '/../View/template_user/' . $view . '.php';
-        require_once __DIR__ . '/../View/template_user/' . $view . '.php';
-        require_once __DIR__ . '/../View/template_user/' . $view . '.php';
+        require_once __DIR__ . '/../View/content-perpus/' . $view . '.php';
     }
 
     public static function ViewLogin(string $view, $data = "")

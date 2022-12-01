@@ -3,25 +3,20 @@
 namespace Staditek\TH\App\Model;
 use Staditek\TH\App\Config\Database;
 
-class PerpusModel extends Database{
+class MemberModel extends Database{
 
-    public function HitungMember(){
+    public function showMember(){
         $statement = self::$conn->prepare("SELECT * FROM member");
         $statement->execute();
 
-        return $statement->rowCount();
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
-    public function HitungBook(){
-        $statement = self::$conn->prepare("SELECT * FROM book_table");
+
+    public function deleteMember($id){
+        $statement = self::$conn->prepare("DELETE FROM member WHERE id_member = $id");
         $statement->execute();
 
-        return $statement->rowCount();
-    }
-    public function HitungOfficer(){
-        $statement = self::$conn->prepare("SELECT * FROM user_librarian");
-        $statement->execute();
-
-        return $statement->rowCount();
+        return $statement->fetch(\PDO::FETCH_OBJ);
     }
 
     public function tampilBook(){
@@ -59,12 +54,5 @@ class PerpusModel extends Database{
             WHERE book_id = :book_id
         ");
         return $statement->execute($data);
-    }
-
-    public function deleteBook($id){
-        $statement = self::$conn->prepare("DELETE FROM book_table WHERE book_id = $id");
-        $statement->execute();
-
-        return $statement->fetch(\PDO::FETCH_OBJ);
     }
 }

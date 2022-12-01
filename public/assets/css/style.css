@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Secular+One&family=Solway&family=Titillium+Web&display=swap');
+
+:root{
+    --font1 : 'Josefin Sans', sans-serif;
+    --font2 : 'Secular One', sans-serif;
+    --font3 : 'Solway', serif;
+    --font4 : 'Titillium Web', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    background-color: #ecddf5;
+}
+
+#content{
+    height: 100vh;
+    width: auto;
+    display: flex;
+    /* align-items: center; */
+}
+
+section .wrapper-side{
+    display: flex;
+    align-items: center;
+}
+
+section .sidebar{
+    width: 17%;
+    height: 95vh;
+    border-radius: 15px;
+    margin: 0 1.5%;
+    overflow: hidden;
+    position: fixed;
+    background-color: #312244;
+}
+
+.sidebar .header-side{
+    margin: 20px;
+    text-align: center;
+    font-family: var(--font2);
+    font-size: 30px;
+    color: #efefef;
+}
+
+.sidebar .row-side{
+    border: 1px solid #1e0b3fc4;
+}
+
+.sidebar .content-side{
+    margin: 50px 10px 0 25px;
+}
+
+.content-side ul{
+    list-style: none;
+}
+
+.content-side ul li{
+    margin: 0 0 30px 0;
+    width: 100%;
+}
+
+.content-side ul li a{
+    text-decoration: none;
+    padding: 10px 100% 10px 15px;
+    height: 20px;
+    border-radius: 10px 0 0 20px;
+    color: #E0AAFF;
+    font-family: var(--font1);
+    font-size: 20px;
+    transition: all 0.2s;
+}
+
+.content-side ul li a.active{
+    background-color: #ecddf5;
+    color: #312244;
+    font-weight: bold;
+}
+
+.content-side ul li a:hover{
+    background-color: #3c096c8a;
+    color: #ecddf5;
+    font-weight: bold;
+}
+
+.sidebar .footer-side{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.footer-side a{
+    text-decoration: none;
+    color: #312244;
+    font-family: var(--font1);
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    margin: 20px 20px;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #ecddf5;
+}
+
+.main {
+    margin: 0 0 0 18.5%;
+    padding: 20px;
+    width: 100%;
+}
+
+.main .header{
+    padding: 5px 20px;
+    font-family: var(--font4);
+}
+
+.header .brand .head span{
+    font-size: 15px;
+    color: #252525;
+}
+
+.header .brand .head span b{
+    font-weight: 600;
+}
+
+.brand .ket{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.main .content{
+    padding: 20px 0 0 10px ;
+}
+
+.main .content .card-header{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.main .content .card-header .card{
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.card-header .card .head{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+.card-header .card .head .member{
+    background-color: #3C096C;
+    color: #ecddf5;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.card-header .card .head .book{
+    background-color: #3C096C;
+    color: #ecddf5;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.card-header .card .head .borrowing{
+    background-color: #3C096C;
+    color: #ecddf5;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.card-header .card .head .officer{
+    background-color: #3C096C;
+    color: #ecddf5;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 10px;
+}
+
+.card-header .card .head .ket{
+    text-align: right;
+    font-family: var(--font3);
+    display: grid;
+    gap: 10px;
+}
+
+.card .head .ket p{
+    font-size: 15px;
+    height: 30px;
+    font-weight: bold;
+}
+
+.card .head .ket b{
+    font-size: 25px;
+    font-weight: bold;
+    font-family: var(--font1);
+}
+
+.card .row-card{
+    border: 1px solid #31224496;
+}
+
+.card .foot{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font1);
+    color: #312244;
+}

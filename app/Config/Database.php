@@ -1,6 +1,6 @@
 <?php
 
-namespace staditek\OOP\App\config;
+namespace Staditek\TH\App\Config;
 
 class Database{
     protected static $hostname = "localhost";
